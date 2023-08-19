@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+    <div class="content">
+       
+            <h1>path</h1>
+    
+        
+        <ul>
+            <li><a href="{% url 'list-student' %}">list-student</a></li>
+            <li><a href="{% url 'list-teacher' %}">list-teacher</a></li>
+            <li><a href="{% url 'create' %}">create</a></li>
+            <li><a href="{% url 'update' pk=1 %}">update</a></li>
+            <li><a href="{% url 'delete' pk=1 %}">delete</a></li>
+            <li><a href="{% url 'detail-std' pk=1 %}">detail-student</a></li>
+            <li><a href="{% url 'detail-teacher' pk=1 %}">details-teacher</a></li>
+            <li><a href="{% url 'submit' pk=1 %}">submit</a></li>
+        </ul>
+    
+        
+    </div>
+    
+{% endblock %}
