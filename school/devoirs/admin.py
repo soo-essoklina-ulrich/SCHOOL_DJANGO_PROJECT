@@ -5,6 +5,3 @@ from .models import *
 
 admin.site.register(ProjectModule)
 admin.site.register(Matiere)
-admin.site.register(Classes)
-admin.site.register(Enseignant)
-admin.site.register(Student)

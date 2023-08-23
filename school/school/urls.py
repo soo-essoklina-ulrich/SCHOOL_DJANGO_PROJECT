@@ -24,5 +24,6 @@ urlpatterns = [
     #AUTH ROUTE
     path('auth/', include('authentication.urls')),
     #DEVOIRS ROUTE
-    path('dev/', include('devoirs.urls')),
+    
+    path('', include('devoirs.urls')),
 ]

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.utils.crypto import get_random_string
 import random
 import string
 
@@ -30,7 +29,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True)
 
     USERNAME_FIELD = 'identifiant' #'identifiant'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'email', 'native', 'numero', 'role']
     password = models.CharField(max_length=128, blank=True, null=True)
     
     def generate_random_password(self):
@@ -59,3 +58,17 @@ class User(AbstractUser):
 
     def __str__(self):
         return "{}".format(self.email)
+    def get_data(self):
+        initial_data= {'identifiant' : self.identifiant,
+                       'username': self.username,
+                       'email' : self.email,
+                       'first_name' : self.first_name,
+                       'last_name' : self.last_name,
+                       'native' : self.native,
+                       'numero': self.numero,
+                       'role' : self.role
+                       }
+        return initial_data
+    
+    def get_role(self):
+        return self.role

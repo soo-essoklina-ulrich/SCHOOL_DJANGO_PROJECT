@@ -1,24 +1,31 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
 from .models import ProjectModule
 from .forms import ProjectForm
 # Create your views here.
-
+@login_required(login_url='auth/login/')
 def project_list_for_student(request):
-    projects = ProjectModule.objects.all()
+    user = request.user
+    projects = ProjectModule.objects.filter(assigned_to_eleve = user)
     return render(request, 'devoirs/student/projects_list_student.html', {'projects': projects})
 
+@login_required(login_url='auth/login/')
 def project_list_for_teacher(request):
     projects = ProjectModule.objects.all()
     return render(request, 'devoirs/enseignant/projects_list_teacher.html', {'projects': projects})
 
-def project_detail_for_teacher(request, project_id):
-    project = ProjectModule.objects.get(pk=project_id)
-    return render(request, 'devoirs/enseignant/projet_detail.html', {'project': project})
+@login_required(login_url='auth/login/')
+def project_detail_for_teacher(request, id):
+    project = ProjectModule.objects.get(pk=id)
+    return render(request, 'devoirs/enseignant/project_detail.html', {'project': project})
 
-def project_detail_for_student(request, project_id):
-    project = ProjectModule.objects.get(pk=project_id)
-    return render(request, 'devoirs/student/projet_detail.html', {'project': project})
+@login_required(login_url='auth/login/')
+def project_detail_for_student(request, id):
+    project = ProjectModule.objects.get(pk=id)
+    return render(request, 'devoirs/student/project_detail.html', {'project': project})
 
+@login_required(login_url='auth/login/')
 def create_project(request):
     msg = None
     success = False
@@ -34,8 +41,9 @@ def create_project(request):
         form = ProjectForm()
     return render(request, 'devoirs/project/create_project.html', {'form': form, 'msg': msg, "success" : success})
 
-def submit_project_by_student(request, project_id):
-    project = ProjectModule.objects.get(pk=project_id)
+@login_required(login_url='auth/login/')
+def submit_project_by_student(request, id):
+    project = ProjectModule.objects.get(pk=id)
     
     if request.method == 'POST':
         submitted_file = request.FILES.get('submitted_file')
@@ -46,13 +54,15 @@ def submit_project_by_student(request, project_id):
 
     return render(request, 'projects/submit_project.html', {'project': project})
 
-def delete_project(request, project_id):
-    project = ProjectModule.objects.get(pk=project_id)
+@login_required(login_url='auth/login/')
+def delete_project(request, id):
+    project = ProjectModule.objects.get(pk=id)
     project.delete()
     return redirect('project-list')
 
-def update_project(request, project_id):
-    project = ProjectModule.objects.get(pk=project_id)
+@login_required(login_url='auth/login/')
+def update_project(request, id):
+    project = ProjectModule.objects.get(pk=id)
     msg = None
     if request.method == 'POST':
         project_form = ProjectForm(instance=project, data=request.POST or None, files=request.FILES or None )
@@ -72,6 +82,6 @@ def update_project(request, project_id):
     
     
     
-    
+@login_required(login_url='auth/login/')  
 def index(request):
     return render(request, 'devoirs/index.html')

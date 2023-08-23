@@ -76,15 +76,25 @@ class RegisterForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Password",
+                "class": "form-control"
+            }
+        ))
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Confirm Password",
+                "class": "form-control"
+            }
+        ))
     
-
-    
-
-
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name', 'native', 'numero', 'role',)
-        exclude = ('password1', 'password2', "password")
+        fields = ('username', 'email', 'first_name', 'last_name', 'native', 'numero', 'role', 'password1', 'password2')
+        #exclude = ('password1', 'password2', "password")
 
 
 class UpdateInfoForm(UserCreationForm):
@@ -95,8 +105,6 @@ class UpdateInfoForm(UserCreationForm):
                 "placeholder": "ID",
                 "class": "form-control",
                 "disabled": "disabled",
-                
-                
             }
         ))
     
@@ -144,8 +152,17 @@ class UpdateInfoForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
+    role = forms.CharField(
+        widget=forms.Select(
+            choices=CustomUser.ROLE_CHOICES,
+            attrs={
+                "placeholder": "Role",
+                "class": "form-control",
+                "disabled": "disabled",
+            }
+        ))
     
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name', 'native', 'numero')
+        fields = ('identifiant','username', 'email', 'first_name', 'last_name', 'native', 'numero', 'role' )
     

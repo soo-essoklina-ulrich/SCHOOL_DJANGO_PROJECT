@@ -63,7 +63,7 @@
 
                                         <div class="col-md-12 px-md-1">
                                             <div class="form-group">
-                                                <label>Username</label>
+                                                <label>Prenom</label>
                                                 {{ form.last_name }}
                                             </div>
                                             <span class="text-danger">{{ form.last_name.errors }}</span>
@@ -110,6 +110,21 @@
                                             <span class="text-danger">{{ form.role.errors }}</span>
                                         </div>
 
+                                        <div class="col-md-12 px-md-1">
+                                            <div class="form-group">
+                                                <label>Password 1</label>
+                                                {{ form.password1 }}
+                                            </div>
+                                            <span class="text-danger">{{ form.password1.errors }}</span>
+                                        </div>
+
+                                        <div class="col-md-12 px-md-1">
+                                            <div class="form-group">
+                                                <label>Password 2</label>
+                                                {{ form.password2 }}
+                                            </div>
+                                            <span class="text-danger">{{ form.password2.errors }}</span>
+                                        </div>
                                                                             
 
                                     </div>
