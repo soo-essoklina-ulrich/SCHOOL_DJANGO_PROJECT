@@ -3,3 +3,6 @@
 
 #environment
 .venv
+
+#BD
+db.sqlite3
