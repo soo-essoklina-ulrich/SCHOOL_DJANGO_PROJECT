@@ -43,16 +43,9 @@ def create_project(request):
 
 @login_required(login_url='auth/login/')
 def submit_project_by_student(request, id):
-    project = ProjectModule.objects.get(pk=id)
-    
-    if request.method == 'POST':
-        submitted_file = request.FILES.get('submitted_file')
-        project.file = submitted_file
-        project.status = 'submitted'
-        project.save()
-        return redirect('list-student')
+    template_name = 'devoirs/student/submit_project.html'
 
-    return render(request, 'projects/submit_project.html', {'project': project})
+   
 
 @login_required(login_url='auth/login/')
 def delete_project(request, id):

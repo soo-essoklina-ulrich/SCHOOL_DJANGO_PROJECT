@@ -1,5 +1,5 @@
 from django import forms
-from .models import ProjectModule
+from .models import ProjectModule, Submit_file
 
 class ProjectForm(forms.ModelForm):
     title = forms.CharField(
@@ -65,4 +65,17 @@ class ProjectUpdateForm(forms.ModelForm):
         model = ProjectModule
         fields = '__all__'
         
-        
+    
+class SubmitForm(forms.ModelForm):
+    submit_file = forms.FileField(
+        label='Submit Project',
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+    
+    class Meta:
+        model = Submit_file
+        fields = '__all__'   
