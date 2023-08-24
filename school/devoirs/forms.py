@@ -78,4 +78,5 @@ class SubmitForm(forms.ModelForm):
     
     class Meta:
         model = Submit_file
-        fields = '__all__'   
+        fields = '__all__'
+        exclude = ['submitted_at', 'submitted_by', 'project']   

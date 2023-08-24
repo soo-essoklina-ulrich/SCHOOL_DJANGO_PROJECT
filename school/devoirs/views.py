@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, resolve_url
 from django.contrib.auth.decorators import login_required
 
-from .models import ProjectModule
-from .forms import ProjectForm
+from .models import ProjectModule, Submit_file
+from .forms import ProjectForm, SubmitForm
 # Create your views here.
 @login_required(login_url='auth/login/')
 def project_list_for_student(request):
@@ -22,8 +22,24 @@ def project_detail_for_teacher(request, id):
 
 @login_required(login_url='auth/login/')
 def project_detail_for_student(request, id):
+    msg = None
     project = ProjectModule.objects.get(pk=id)
-    return render(request, 'devoirs/student/project_detail.html', {'project': project})
+    
+    if request.method == 'POST':
+        form = SubmitForm(request.POST, request.FILES or None)
+        if form.is_valid():
+            #Submit_file = form.save(commit=False)
+            Submit_file.objects.get_or_create(submit_file=request.FILES['submit_file'], submitted_by=request.user, project=project)
+            msg = 'Projet soumis avec succès'
+            det = resolve_url('project-detail-student', id=id)
+            return redirect(det)
+        else:
+            msg = 'Erreur lors de la soumission du projet'
+            print(form.errors)
+    else:
+        form = SubmitForm()
+    context = {'project': project, 'form': form, 'msg': msg}
+    return render(request, 'devoirs/student/project_detail.html', context)
 
 @login_required(login_url='auth/login/')
 def create_project(request):
@@ -41,9 +57,10 @@ def create_project(request):
         form = ProjectForm()
     return render(request, 'devoirs/project/create_project.html', {'form': form, 'msg': msg, "success" : success})
 
-@login_required(login_url='auth/login/')
-def submit_project_by_student(request, id):
-    template_name = 'devoirs/student/submit_project.html'
+# @login_required(login_url='auth/login/')
+# def submit_project_by_student(request, id):
+#     template_name = 'devoirs/student/submit_project.html'
+    
 
    
 

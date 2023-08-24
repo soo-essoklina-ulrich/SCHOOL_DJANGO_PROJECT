@@ -7,11 +7,11 @@
             <li><a href="{% url 'list-student' %}">list-student</a></li>
             <li><a href="{% url 'list-teacher' %}">list-teacher</a></li>
             <li><a href="{% url 'create' %}">create</a></li>
-            <li><a href="{% url 'update' pk=1 %}">update</a></li>
-            <li><a href="{% url 'delete' pk=1 %}">delete</a></li>
-            <li><a href="{% url 'detail-std' pk=1 %}">detail-student</a></li>
-            <li><a href="{% url 'detail-teacher' pk=1 %}">details-teacher</a></li>
-            <li><a href="{% url 'submit' pk=1 %}">submit</a></li>
+            <li><a href="{% url 'update' id=1 %}">update</a></li>
+            <li><a href="{% url 'delete' id=1 %}">delete</a></li>
+            <li><a href="{% url 'detail-std' id=1 %}">detail-student</a></li>
+            <li><a href="{% url 'detail-teacher' id=1 %}">details-teacher</a></li>
+            {% comment %} <li><a href="{% url 'submit' id=1 %}">submit</a></li> {% endcomment %}
         </ul>
     
         <div class="row">
