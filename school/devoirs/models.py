@@ -5,18 +5,20 @@ import os
 # Create your models here.
 
 User = get_user_model()
-#get user name to create a folder for each user
-def user_name(request):
-    return request.user.username
+
 #genereate path for each file uploaded by teacher or admin
 def file_path_project(instance, filename):
-    path = 'documents/'+str(user_name)
-    format = 'uploaded'+ instance.title + filename
+    # Obtenez le nom d'utilisateur de l'utilisateur actuel
+    username = instance.Enseignant.username if instance.Enseignant else 'default'
+    # Générez le chemin de fichier pour le fichier téléchargé
+    path = 'documents/uploads/'+ str(username)
+    format = 'uploads' + instance.title + filename
     return os.path.join(path, format)
 #genereate path for each file submitted by student
 def file_path_sbmt(instance, filename):
-    path = 'documents/'+str(user_name)
-    format = 'submitted'+ instance.project.title + filename
+    user = instance.submitted_by.username if instance.submitted_by else 'default'
+    path = 'documents/submitted/' + str(user)
+    format = str(user)+ instance.project.title + filename
     return os.path.join(path, format)
 
 class Matiere(models.Model):
@@ -33,7 +35,7 @@ class Submit_file(models.Model):
     submitted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submitted_by', null=True)
     project = models.ForeignKey('ProjectModule', on_delete=models.CASCADE, related_name='submitted_project', null=True)
     
-    def __str__(self) -> str:
+    def __str__(self):
         return str(self.submit_file)
 
 class ProjectModule(models.Model):
@@ -58,10 +60,10 @@ class ProjectModule(models.Model):
    
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name='projects_matiere', null=True)
     
-    submitted = models.OneToOneField(Submit_file, on_delete=models.CASCADE, related_name='submitted_project', null=True)
+    submitted = models.OneToOneField(Submit_file, on_delete=models.CASCADE, related_name='submitted_project', null=True, blank=True)
     
     
     def __str__(self):
-        return self.project_file
+        return f"{self.title } - {self.project_file}" 
 
     

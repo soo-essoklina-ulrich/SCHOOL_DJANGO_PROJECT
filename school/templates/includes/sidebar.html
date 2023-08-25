@@ -20,13 +20,36 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                
+                {% if role == "admin" %}
                 <li>
-                    <a href="{% url 'logout' %}">
-                        <i class="tim-icons icon-button-power"></i>
-                        <p>Logout</p>
+                    <a href="{% url 'list-admin' %}">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        
+                        <p>My Project</p>
                     </a>
                 </li>
+                {% elif role == "enseignat" %}
+                <li>
+                    <a href="{% url 'list-teacher' %}">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        
+                        <p>My Project</p>
+                    </a>
+                </li>
+                {% elif role == "eleve" %}
+                <li>
+                    <a href="{% url 'list-student' %}">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        
+                        <p>My Project</p>
+                    </a>
+                </li>
+                {% else %}
+                <li></li>
+                {% endif %}
+                
+                
+                
             </ul>
         </div>
     </div>

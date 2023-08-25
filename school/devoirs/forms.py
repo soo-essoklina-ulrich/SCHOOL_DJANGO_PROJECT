@@ -68,10 +68,13 @@ class ProjectUpdateForm(forms.ModelForm):
     
 class SubmitForm(forms.ModelForm):
     submit_file = forms.FileField(
-        label='Submit Project',
+        
         widget=forms.FileInput(
             attrs={
-                'class': 'form-control'
+                'class': 'form-control',
+                'id': 'autoSizingInputGroup',
+                'type': 'file'
+                
             }
         )
     )

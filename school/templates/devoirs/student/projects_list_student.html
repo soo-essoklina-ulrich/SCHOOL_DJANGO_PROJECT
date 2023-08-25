@@ -2,59 +2,25 @@
 {% block content %}
   <div class="content">
     <div class="row">
-      <div class="col-md-12">
-        <div class="card ">
-          <div class="card-header">
-            <h4 class="card-title"> Projects Table</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table tablesorter " id="">
-                <thead class=" text-primary">
-                  <tr>
-                    <th>
-                      Titre
-                    </th>
-                    <th>
-                      Matiere
-                    </th>
-                    <th>
-                     date Cloture
-                    </th>
-                    <th class="text-center">
-                      Status
-                    </th>
-                    <th></th>
-                  </tr>
-                </thead>
-                {% for project in projects %}
-                <tbody>
-                  <tr>
-                    <td>
-                      {{ project.title }}
-                    </td>
-                    <td>
-                      {{ project.matiere }}
-                    </td>
-                    <td>
-                      {{ project.end_at }}
-                    </td>
-                    <td class="text-center">
-                      {{ project.status }}
-                    </td>
-                    <td>
-                      <a href="{% url 'detail-std' project.id %}" class="btn btn-primary btn-link btn-sm"><i class="tim-icons icon-notes"></i></a>
-                      <a href="#" class="btn btn-primary btn-link btn-sm"><i class="tim-icons icon-pencil"></i></a>
-                      
-                    </td>
-                  </tr>
-                
-                {% endfor %}
-              </table>
+      {% for project in projects %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            
+            <div class="card-body">
+              <a href="{% url 'detail-std' project.id %}"><h2 class="card-title">{{ project.title }}</h2></a>
+              
+              <h3 class="card-text">{{ project.subject|escape|linebreaks|truncatewords:5 }}</h3>
+              <p class="card-text">
+                <small class="text-muted">This project end at {{ project.end_at|date:"d M Y" }}</small>
+              </p>
+              
+              <div class="card-footer">
+                <p>Download Project File : <a href="{{ project.project_file.url }}"> <i class="fa fa-download" aria-hidden="true"></i> </a></p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 {% endblock %}

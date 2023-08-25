@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect, resolve_url
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
+import pytz
+from django.conf import settings
 
 from .models import ProjectModule, Submit_file
 from .forms import ProjectForm, SubmitForm
@@ -24,6 +27,15 @@ def project_detail_for_teacher(request, id):
 def project_detail_for_student(request, id):
     msg = None
     project = ProjectModule.objects.get(pk=id)
+    #file_sbmt = Submit_file.objects.filter(project=project, submitted_by=request.user)
+    file = Submit_file.objects.get(project=project, submitted_by=request.user)
+    
+    
+    
+    current_time = datetime.now(pytz.timezone(settings.TIME_ZONE))
+    time_dif = current_time - project.end_at.replace(tzinfo=pytz.timezone(settings.TIME_ZONE))
+    hours, remainder = divmod(time_dif.seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
     
     if request.method == 'POST':
         form = SubmitForm(request.POST, request.FILES or None)
@@ -31,14 +43,13 @@ def project_detail_for_student(request, id):
             #Submit_file = form.save(commit=False)
             Submit_file.objects.get_or_create(submit_file=request.FILES['submit_file'], submitted_by=request.user, project=project)
             msg = 'Projet soumis avec succès'
-            det = resolve_url('project-detail-student', id=id)
-            return redirect(det)
+            
         else:
             msg = 'Erreur lors de la soumission du projet'
-            print(form.errors)
+            
     else:
         form = SubmitForm()
-    context = {'project': project, 'form': form, 'msg': msg}
+    context = {'project': project,'file_sbmt' : file, 'form': form, 'msg': msg, 'time_dif': time_dif,'hours': hours,'minutes': minutes,'seconds': seconds}
     return render(request, 'devoirs/student/project_detail.html', context)
 
 @login_required(login_url='auth/login/')
@@ -94,4 +105,6 @@ def update_project(request, id):
     
 @login_required(login_url='auth/login/')  
 def index(request):
-    return render(request, 'devoirs/index.html')
+    role = request.user.role
+    context = {'role': role}
+    return render(request, 'devoirs/index.html', context)
