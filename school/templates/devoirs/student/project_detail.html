@@ -4,12 +4,8 @@
     <div class="card text-center">
       <div class="card-header">
         {% if project.status == 'in_progress' %}
-          <i class="fa fa-hourglass" aria-hidden="true"></i> In progress
-      
-          {% elif project.status == 'submitted' %}
-          <i class="fa fa-check" aria-hidden="true"></i> Submitted
-          
-          {% elif project.status == 'evaluated' %}
+          <i class="fa fa-hourglass" aria-hidden="true"></i> In progress{% elif project.status == 'submitted' %}
+          <i class="fa fa-check" aria-hidden="true"></i> Submitted{% elif project.status == 'evaluated' %}
           <i class="fa fa-check-circle" aria-hidden="true"></i> evaluated
         {% else %}
           <i class="fa fa-question" aria-hidden="true"></i>
@@ -19,13 +15,12 @@
         <h1 class="card-title" style="text-transform: capitalize;text-decoration: underline; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-size: 500%;">{{ project.title }}</h1>
         <p class="card-text">
           Matiere : {{ project.matiere|upper }} <br />
-          Enseignant: {{ project.Enseignant|lower }} <br>
+          Enseignant: {{ project.Enseignant|lower }} <br />
           <div class="form-floating my-4">
             <h5 style="font-style: oblique; text-decoration: underline;">Subject</h5>
-            <hr>
+            <hr />
             {{ project.subject }}
-           <hr>
-
+            <hr />
           </div>
         </p>
         <div class="mx-5">
@@ -33,30 +28,37 @@
             {% csrf_token %}
             <h6>
               {% if msg %}
-                <span class="text-danger">{{ msg | safe }}</span>
+                <span class="text-danger">{{ msg|safe }}</span>
               {% else %}
                 add your file works here!
               {% endif %}
             </h6>
-            <i class="fa fa-file" aria-hidden="true"></i> -> <a href="{{ file_sbmt.submit_file.url }}">{{file_sbmt}}</a>
+            <i class="fa fa-file" aria-hidden="true"></i> -> <a href="{{ file_sbmt.submit_file.url }}">
+              {% comment %} {{ file_sbmt }} {% endcomment %}
+
+              {% with file_name = file_sbmt %}
+                {# file_name est un alias que je doit formater #}
+                {{ file_name }}
+              {% endwith %}
+            </a>
             <div class="input-group">
-              <div class="input-group-text"> <i class="fa fa-file" aria-hidden="true"></i> </div>
-              {{ form.submit_file}}
+              <div class="input-group-text">
+                <i class="fa fa-file" aria-hidden="true"></i>
+              </div>
+              {{ form.submit_file }}
             </div>
             <button type="submit" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i></button>
           </form>
         </div>
-          
-        
       </div>
       <div class="card-footer text-muted">
         {% load humanize %} {# Importez la bibliothèque 'humanize' pour formater la durée #}
-        
+
         {% if time_dif.days >= 1 %}
-        <p>La différence de temps est : {{ time_dif.days }} jours et {{ hours }} heures</p>
-    {% else %}
-        <p>La différence de temps est : {{ hours }}H : {{ minutes }}min</p>
-    {% endif %}
+          <p>La différence de temps est : {{ time_dif.days }} jours et {{ hours }} heures</p>
+        {% else %}
+          <p>La différence de temps est : {{ hours }}H : {{ minutes }}min</p>
+        {% endif %}
       </div>
     </div>
   </div>
