@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, resolve_url
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import pytz
@@ -83,20 +84,42 @@ def project_detail_for_student(request, id):
 
 @login_required(login_url='auth/login/')
 def create_project(request):
+    user = request.user
     msg = None
     success = False
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES or None)
         if form.is_valid():
-            form.save()
+            project_info = form.save(commit=False)
+            project_info.Enseignant = user
+            project_info.save()
             msg = 'Projet ajouté avec succès'
             return redirect('list-teacher')
         else:
             msg = 'Erreur lors de la création du projet'
+            
     else:
         form = ProjectForm()
     context = {'form': form, 'msg': msg, 'success': success}
     return render(request, 'devoirs/project/create_project.html', context)
+
+@login_required(login_url='auth/login/')
+def view_projet(request, id):
+    project = ProjectModule.objects.get(pk=id)
+    data = {
+        'title': project.title,
+        'subject': project.subject,
+        'project_file': project.project_file.url,
+        'status': project.status,
+        'created_at': project.created_at,
+        'end_at': project.end_at,
+        'Enseignant': project.Enseignant.username,
+        'assigned_to_eleve': project.assigned_to_eleve.username,
+        'matiere': project.matiere.matiere_name if project.matiere else 'Aucune matière',
+    }
+    print(data)
+    return JsonResponse(data)
+   
 
 @login_required(login_url='auth/login/')
 def delete_project(request, id):

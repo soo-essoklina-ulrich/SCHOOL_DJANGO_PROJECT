@@ -31,7 +31,7 @@
 
                     {% else %}
 
-                        <form role="form" method="post" action="">
+                        <form role="form" method="post" action="" enctype="multipart/form-data">
         
                             {% csrf_token %}
 
@@ -84,32 +84,24 @@
                                             <label>Matiere</label>
                                             {{ form.matiere }}
                                         </div>
-                                        <span class="text-danger">{{ form.numero.errors }}</span>
+                                        <span class="text-danger">{{ form.matiere.errors }}</span>
                                     </div>
-
                                     
-
-                                                                        
-
                                 </div>
 
                                 
                             </div>
                             <div class="card-footer text-center">
-                                <button type="submit" name="register" class="btn btn-fill btn-primary">Register</button>
 
-                                <br /><br />
+                                <button type="reset" class="btn btn-fill btn-secondary mx-3" id="go-back-button"> <i class="fa fa-backward" aria-hidden="true"> Back</i> </button>
                                 
-                                <p>
-                                    Have an account? <a href="{% url 'login' %}" class="text-primary">Login</a>
-                                </p> 
+                                <button type="submit" name="register" class="btn btn-fill btn-primary mx-3">Save</button>
+                                
+
                             </div>
                         
                         </form> 
-                        {% comment %} <form action="" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                        </form> {% endcomment %}
+                        
                     {% endif %} 
 
                 </div>
@@ -121,3 +113,12 @@
 </div>
 
 {% endblock %}
+{% block javascripts %}
+<script>
+    document.getElementById('go-back-button').addEventListener('click', function() {
+        history.back();
+    });
+</script>
+
+
+{% endblock javascripts %}

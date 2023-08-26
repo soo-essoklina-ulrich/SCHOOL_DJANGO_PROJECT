@@ -50,7 +50,7 @@ def register(request):
         form = RegisterForm(request.POST)
         
         if form.is_valid():
-            user = User()
+            
             user= form.save(commit=False)
             user.set_unusable_password()
             print(user.password)

@@ -1,0 +1,89 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="content">
+  <div class="row">
+    {% for project in projects %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex">
+            <div class="p-2 flex-grow-1"></div>
+            <div class="p-2">
+              <button class="btn btn-primary detail-button" data-id="{{ project.id }}" data-toggle="modal" data-target="#projectModal">
+                Détail
+              </button>
+            </div>
+          </div>
+          <h2 class="card-title">{{ project.title }} <span class="end-0"></span></h2>
+          <h3 class="card-text">{{ project.subject|escape|linebreaks }}</h3>
+          <p class="card-text">
+            <small class="text-muted">Ce projet se termine le {{ project.end_at|date:"d M Y" }}</small>
+          </p>
+          <div class="card-footer">
+            <a href="{{ project.project_file.url }}"><i class="fa fa-download" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Détails du Projet</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 class="modal-title">Titre du Projet: <span class="modal-project-title"></span></h5>
+        <p>Sujet du Projet: <span class="modal-project-subject"></span></p>
+        <p>Date de fin: <span class="modal-project-end-at"></span></p>
+        <!-- Ajoutez d'autres détails ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block javascprits %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Gestionnaire d'événements pour le bouton "Détail"
+  $('.detail-button').on('click', function() {
+    // Récupérez l'ID du projet à partir de l'attribut data-id
+    var projectId = $(this).data('id');
+
+    // Effectuez une requête AJAX pour récupérer les détails du projet
+    $.ajax({
+      url: 'views' + projectId + '/', // Mettez ici le bon chemin
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        // Mettez à jour les éléments du modal avec les données du projet
+        $('#projectModal .modal-project-title').text(data.title);
+        $('#projectModal .modal-project-subject').text(data.subject);
+        $('#projectModal .modal-project-end-at').text(data.end_at);
+        // Ajoutez d'autres mises à jour ici
+
+        // Affichez le modal
+        $('#projectModal').modal('show');
+      },
+      error: function() {
+        alert('Une erreur s\'est produite lors du chargement des détails du projet.');
+      }
+    });
+  });
+});
+</script>
+
+
+{% endblock javascprits %}

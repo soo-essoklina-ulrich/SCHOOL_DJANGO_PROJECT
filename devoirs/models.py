@@ -12,13 +12,13 @@ def file_path_project(instance, filename):
     username = instance.Enseignant.username if instance.Enseignant else 'default'
     # Générez le chemin de fichier pour le fichier téléchargé
     path = 'documents/uploads/'+ str(username)
-    format = 'uploads' + instance.title + filename
+    format = 'uploads'+'_' + instance.title +'_'+ filename
     return os.path.join(path, format)
 #genereate path for each file submitted by student
 def file_path_sbmt(instance, filename):
     user = instance.submitted_by.username if instance.submitted_by else 'default'
     path = 'documents/submitted/' + str(user)
-    format = str(user)+ instance.project.title + filename
+    format = str(user)+'_'+ instance.project.title +'_'+ filename
     return os.path.join(path, format)
 
 class Matiere(models.Model):

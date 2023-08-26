@@ -7,10 +7,10 @@ from authentication.models import User
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = ProjectModule
-        fields = '__all__'
+        fields = ['title', 'subject', 'project_file', 'end_at', 'assigned_to_eleve', 'matiere']
         exclude = ['status', 'created_at' , 'submitted']
         
-        
+          
     title = forms.CharField(
         max_length=100,
         
