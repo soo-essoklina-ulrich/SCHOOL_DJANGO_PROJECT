@@ -98,7 +98,7 @@ Vous fournirez aussi un dump SQL de votre base de données sur le repo.
 * [Quick Start](#quick-start)
 * [File Structure](#file-structure)
 
-* [ID du super utilisateur](#id-du-super-utilisateur)
+* [ID du super User](#id-du-super-User)
 
 <br />
 
