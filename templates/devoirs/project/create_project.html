@@ -1,0 +1,123 @@
+{% extends 'layouts/base-fullscreen.html' %}
+{% block content %}
+  <div class="content">
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
+                <div class="card">
+                    <div class="card-header text-center py-4">
+                        <h4 class="title">
+                            Create
+                        </h4>
+
+                        <h6 class="card-category">
+                            {% if msg %}
+                                <span class="text-danger">{{ msg | safe }}</span>
+                            {% else %}
+                                <span>
+                                    Add your credentials
+                                </span>
+                            {% endif %}  
+                        </h6>     
+
+                    </div>
+
+                    {% if success %}
+
+                        <div class="card-footer text-center">
+                            <a href="{% url 'index' %}" 
+                               class="btn btn-fill btn-primary">Home</a>
+                        </div>
+
+                    {% else %}
+
+                        <form role="form" method="post" action="">
+        
+                            {% csrf_token %}
+
+                            <div class="card-body px-5 py-3">
+
+                                <div class="row">
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Project Title</label>
+                                            {{ form.title }}
+                                        </div>
+                                        <span class="text-danger">{{ form.title.errors }}</span>
+                                    </div>
+
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Subject</label>
+                                            {{ form.subject }}
+                                        </div>
+                                        <span class="text-danger">{{ form.subject.errors }}</span>
+                                    </div>
+
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label class="input-group-text" for="inputGroupFile02">File</label>
+                                            {{ form.project_file }}
+                                        </div>
+                                        <span class="text-danger">{{ form.project_file.errors }}</span>
+                                    </div>
+
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Finish time</label>
+                                            {{ form.end_at }}
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <span class="text-danger">{{ form.end_at.errors }}</span>
+                                    </div>
+
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Assigned to </label>
+                                            {{ form.assigned_to_eleve }}
+                                        </div>
+                                        <span class="text-danger">{{ form.assigned_to_eleve.errors }}</span>
+                                    </div>
+
+                                    <div class="col-md-12 px-md-1">
+                                        <div class="form-group">
+                                            <label>Matiere</label>
+                                            {{ form.matiere }}
+                                        </div>
+                                        <span class="text-danger">{{ form.numero.errors }}</span>
+                                    </div>
+
+                                    
+
+                                                                        
+
+                                </div>
+
+                                
+                            </div>
+                            <div class="card-footer text-center">
+                                <button type="submit" name="register" class="btn btn-fill btn-primary">Register</button>
+
+                                <br /><br />
+                                
+                                <p>
+                                    Have an account? <a href="{% url 'login' %}" class="text-primary">Login</a>
+                                </p> 
+                            </div>
+                        
+                        </form> 
+                        {% comment %} <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                        </form> {% endcomment %}
+                    {% endif %} 
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

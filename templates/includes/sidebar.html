@@ -1,0 +1,62 @@
+
+    <div class="sidebar">
+        <!--
+          Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red"
+      -->
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="javascript:void(0)" class="simple-text logo-mini">
+                    PS
+                </a>
+                <a href="javascript:void(0)" class="simple-text logo-normal">
+                    SCHOOL
+                </a>
+            </div>
+            <ul class="nav">
+                <li>
+                    <a href="{% url 'index' %}">
+                        <i class="tim-icons icon-chart-pie-36"></i>
+                        
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                {% if role == "admin" %}
+                <li>
+                    <a href="{% url 'list-admin' %}">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        
+                        <p>All Project</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        
+                        <p>All User</p>
+                    </a>
+                </li>
+                {% elif role == "enseignant" %}
+                <li>
+                    <a href="{% url 'list-teacher' %}">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        
+                        <p>Project</p>
+                    </a>
+                </li>
+                {% elif role == "eleve" %}
+                <li>
+                    <a href="{% url 'list-student' %}">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        
+                        <p>My Project</p>
+                    </a>
+                </li>
+                {% else %}
+                <li></li>
+                {% endif %}
+                
+                
+                
+            </ul>
+        </div>
+    </div>
