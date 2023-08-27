@@ -106,19 +106,9 @@ def create_project(request):
 @login_required(login_url='auth/login/')
 def view_projet(request, id):
     project = ProjectModule.objects.get(pk=id)
-    data = {
-        'title': project.title,
-        'subject': project.subject,
-        'project_file': project.project_file.url,
-        'status': project.status,
-        'created_at': project.created_at,
-        'end_at': project.end_at,
-        'Enseignant': project.Enseignant.username,
-        'assigned_to_eleve': project.assigned_to_eleve.username,
-        'matiere': project.matiere.matiere_name if project.matiere else 'Aucune matière',
-    }
-    print(data)
-    return JsonResponse(data)
+    context = {'project': project}
+    
+    return render(request, 'devoirs/project/view_project.html', context)
    
 
 @login_required(login_url='auth/login/')

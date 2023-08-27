@@ -1,35 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% block content %}
-  <!-- Modal -->
-<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h5 class="modal-title">Titre du Projet: <span id="title" class="modal-title"></span></h5>
-        <p>Sujet du Projet: <span id="subject" class="modal-subject"></span></p>
-        <p>Statut: <span id="status" class="modal-status"></span></p>
-        <p>Date de création: <span id="created-at" class="modal-created-at"></span></p>
-        <p>Date de fin: <span id="end-at" class="modal-end-at"></span></p>
-        <p>Enseignant: <span id="enseignant" class="modal-enseignant"></span></p>
-        <p>Assigné à l'élève: <span id="assigned-to-eleve" class="modal-assigned-to-eleve"></span></p>
-        <p>Matière: <span id="matiere" class="modal-matiere"></span></p>
-        <p>Fichier du projet: <a id="file" href="#" class="modal-project-file">Lien vers le fichier</a></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="content">
-</button>
   <div class="row">
     {% for project in projects %}
 
@@ -43,10 +14,9 @@
           <div class="card-body">
             <div class="d-flex">
               <div class="p-2 flex-grow-1"></div>
-              <div class="p-2" > <a class="detail-button" href="#" data-toggle="modal" data-target="#Modal" data-project-id="{{ project.id }}"> <i class="fa fa-eye" aria-hidden="true"></i></a> </div>
-              <div class="p-2"> <a href="{% url 'detail-teacher' project.id %}"><i class="tim-icons icon-pencil"></i></a></div>
+              <div class="p-2"></div>
+              <div class="p-2"><a href="{% url 'detail-teacher' project.id %}"><i class="fa fa-eye" aria-hidden="true"></i></a></div>
             </div>
-            
             <h2 class="card-title">{{ project.title }} <span class="end-0" > </span> </h2>
             <h3 class="card-text">{{ project.subject|escape|linebreaks }}</h3>
             <p class="card-text">
@@ -55,8 +25,7 @@
             </p>
             
             <div class="card-footer">
-              
-             
+              &nbsp;
             </div>
           </div>
         </div>
@@ -64,52 +33,4 @@
     {% endfor %}
   </div>
 </div>
-{% endblock %}
-
-{% block javascript %}
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-$(document).ready(function(){
-  $('.detail-button').on('click', function (e) {
-  // Empêcher le comportement par défaut du bouton
-  e.preventDefault();
-  // Récupérez l'ID du projet à partir de l'attribut data-id du bouton
-  var projectId = $(this).data('id');
-  console.log(projectId);
-
-  // Faites une requête AJAX pour obtenir les données du projet
-  $.ajax({
-    url: '{% url 'views' project.id %}', //URL de la vue qui renvoie les données du projet
-    type: 'POST', //Methode HTTP utilisée pour la requête
-    /*data: {
-      'project_id': projectId, //Clé et valeur envoyées au serveur
-      'csrfmiddlewaretoken': '{{ csrf_token }}' //Clé et valeur envoyées au serveur
-    },*/
-    dataType: 'json', //Le type de données que vous attendez du serveur
-    success: function (data) {
-      // Injectez les données dans les éléments du modal
-      $('#title').text(data.title);
-      $('#subject').text(data.subject);
-      $('#status').text(data.status);
-      $('#created-at').text(data.created_at);
-      $('#end-at').text(data.end_at);
-      $('#enseignant').text(data.Enseignant);
-      $('#assigned-to-eleve').text(data.assigned_to_eleve);
-      $('#matiere').text(data.matiere);
-      $('#file').attr('href', data.project_file);
-    },
-    error: function () {
-      alert('Une erreur s\'est produite lors du chargement des données du projet.');
-      console.error(error);
-    }
-  });
-});
-})
-
-
-</script>
-
-{% comment %} <script src="{{ ASSETS_ROOT }}/ajax/datail_modal.js"></script> {% endcomment %}
 {% endblock %}
