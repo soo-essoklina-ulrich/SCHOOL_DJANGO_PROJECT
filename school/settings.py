@@ -32,9 +32,15 @@ MEDIA_DIR = os.path.join(BASE_DIR, "media")
 SECRET_KEY = 'django-insecure-af9d9jfb(y_tr31l&a@qrh$eik($z-yqdiiyex7i#79xgln3$e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'localhost:85', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1']
+
+# Configurez les modèles de page d'erreur personnalisés
+handler500 = 'devoirs.views.custom_error_500'
+handler403 = 'devoirs.views.custom_error_403'
+handler404 = 'devoirs.views.custom_error_404'
 
 
 # Application definition
@@ -142,7 +148,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 ASSETS_ROOT = os.getenv('ASSETS_ROOT', 'static/asstes')
 
 MEDIA_ROOT = MEDIA_DIR
@@ -154,3 +161,5 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "authentication.User"
+
+MAX_UPLOAD_SIZE = 5 * 1024 * 1024  # 5 Mo (vous pouvez ajuster cette valeur selon vos besoins)

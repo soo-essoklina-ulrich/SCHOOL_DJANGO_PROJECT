@@ -25,16 +25,10 @@
                     <a href="{% url 'list-admin' %}">
                         <i class="fa fa-tasks" aria-hidden="true"></i>
                         
-                        <p>All Project</p>
+                        <p>All Model</p>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-tasks" aria-hidden="true"></i>
-                        
-                        <p>All User</p>
-                    </a>
-                </li>
+                
                 {% elif role == "enseignant" %}
                 <li>
                     <a href="{% url 'list-teacher' %}">

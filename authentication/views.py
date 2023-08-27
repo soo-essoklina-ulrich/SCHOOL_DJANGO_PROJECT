@@ -81,7 +81,7 @@ def profil(request):
             msg = "Erreur lors de la modification des informations"
             print(form.errors)
     else:
-        userr = User
+        
         initial_data= {'identifiant' : request.user.identifiant,
                        'username': request.user.username ,
                        'email' : request.user.email,

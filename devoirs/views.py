@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import pytz
 from django.conf import settings
+from authentication.models import User
 
 from .models import ProjectModule, Submit_file
 from .forms import ProjectForm, SubmitForm, ProjectUpdateForm
@@ -27,8 +29,10 @@ def project_list_for_teacher(request):
 def all_list_for_admin(request):
     role = request.user.role
     projects = ProjectModule.objects.all()
-    context = {'projects': projects, 'role': role}
-    return render(request, 'devoirs/admin/projects_list_admin.html', context)
+    sub = Submit_file.objects.all()
+    user_object = User.objects.all()
+    context = {'pro': projects, 'role': role , 'userobject': user_object , 'sub': sub}
+    return render(request, 'devoirs/admin/list_admin.html', context)
 
 
 @login_required(login_url='auth/login/')
@@ -85,6 +89,12 @@ def create_project(request):
         form = ProjectForm(request.POST, request.FILES or None)
         if form.is_valid():
             project_info = form.save(commit=False)
+            if project_info.project_file.size > settings.MAX_UPLOAD_SIZE:
+                raise ValidationError("Le fichier est trop volumineux. La taille maximale autorisée est de {} octets.".format(settings.MAX_UPLOAD_SIZE))
+               # msg = 'Fichier trop volumineux. La taille maximale du fichier est de 10 Mo.'
+               # return render(request, 'devoirs/project/create_project.html', {'form': form, 'msg': msg, 'success': success})
+            
+            
             project_info.Enseignant = user
             project_info.save()
             msg = 'Projet ajouté avec succès'
@@ -99,20 +109,32 @@ def create_project(request):
 
 @login_required(login_url='auth/login/')
 def view_projet(request, id):
+    msg = None
     role = request.user.role
     project = ProjectModule.objects.get(pk=id)
     if request.method == 'POST':
         form = ProjectUpdateForm( request.POST, request.FILES or None)
         if form.is_valid():
-            update = form.save(commit=False)
-            update.save()
+            form.save()
+            
+            msg = 'Projet soumis avec succès'
+            
             #return redirect('list-student')
         else:
+            print(form.errors)
             msg = 'Erreur lors de la soumission du projet'
     else:
-        form = ProjectUpdateForm()
+        initial_data= {'title' : project.title,
+                       'subject': project.subject,
+                       'end_at' : project.end_at,
+                       'assigned_to_eleve' : project.assigned_to_eleve,
+                       'matiere': project.matiere,
+                       'project_file': project.project_file,
+                       
+                       }
+        form = ProjectUpdateForm(initial=initial_data)
     
-    context = {'project': project, 'role': role, 'form': form}
+    context = {'project': project, 'role': role, 'form': form , 'msg': msg}
     
     return render(request, 'devoirs/project/view_project.html', context)
    
@@ -120,9 +142,11 @@ def view_projet(request, id):
 @login_required(login_url='auth/login/')
 def delete_project(request, id):
     
-    project = ProjectModule.objects.get(pk=id)
+    project = get_object_or_404(ProjectModule, pk=id)
+    
     project.delete()
-    return redirect('project-list')
+    
+    return redirect('list-admin')
 
 @login_required(login_url='auth/login/')
 def update_project(request, id):
@@ -145,7 +169,12 @@ def update_project(request, id):
     
     
     
-    
+def custom_error_500(request):
+    return render(request, 'error/page-500.html', status=500)
+def custom_error_404(request):
+    return render(request, 'error/page-404.html', status=404)
+def custom_error_403(request):
+    return render(request, 'error/page-403.html', status=403)
     
 @login_required(login_url='auth/login/')  
 def index(request):

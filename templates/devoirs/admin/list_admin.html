@@ -1,0 +1,269 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card ">
+                <div class="card-header">
+                    <div class="d-flex">
+                        <div class="p-2 flex-grow-1"><h4 class="card-title">Project Table</h4></div>
+                        <div class="p-2"></div>
+                        <div class="p-2">
+                            <li class="input-group d-flex align-items-center mb-0">
+                            <a href=" {% url 'create'%} " class="btn btn-datk" tabindex="-1" role="button" aria-disabled="true"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            </li>
+                        </div>
+                      </div>
+                  
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table tablesorter " id="">
+                      <thead class=" text-primary">
+                        <tr>
+                          <th>
+                           Titre
+                          </th>
+                          <th>
+                            Subject
+                          </th>
+                          <th>
+                            Status
+                          </th>
+                          <th>
+                            Create At
+                          </th>
+                          <th>
+                            End At
+                          </th>
+                          <th>
+                            Enseignant
+                          </th>
+                          <th>
+                            Eleve
+                          </th>
+                          <th>
+                            Matiere
+                          </th>
+                            <th>
+                                File
+                            </th>
+                          <th class="text-center">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                     <tbody>
+                        {% for pro in pro %}
+                        <tr>
+                            <td>
+                              {{pro.id}}
+                            <td>
+                              {{pro.title}}
+                            </td>
+                            <td>
+                             {{pro.subject|truncatechars:10}}
+                            </td>
+                            <td>
+                                {{pro.status}}
+                            </td>
+                            <td>
+                                {{pro.create_at}}
+                            </td>
+                            <td>
+                                {{pro.end_at}}
+                            </td>
+                            <td>
+                                {{pro.enseignant}}
+                            </td>
+                            <td>
+                                {{pro.assigned_to_eleve}}
+                            </td>
+                            <td>
+                                {{pro.matiere}}
+                            </td>
+                            <td>
+                                {{pro.file}}
+                            </td>
+                            <td class="text-center">
+                                <a href=" {% url 'delete' pro.id %} "> <i class="fa fa-eraser" aria-hidden="true"></i> </a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                        
+                     </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card  card-plain">
+                <div class="card-header">
+                    <div class="d-flex">
+                        <div class="p-2 flex-grow-1"> <h4 class="card-title">User Table</h4></div>
+                        <div class="p-2"></div>
+                        <div class="p-2">
+                            <li class="input-group d-flex align-items-center mb-0">
+                            <a href=" {% url 'register'%} " class="btn btn-datk" tabindex="-1" role="button" aria-disabled="true"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            </li>
+                        </div>
+                      </div>
+                  <p class="category"> Here is a all user register or not register</p>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table tablesorter " id="">
+                      <thead class=" text-primary">
+                        <tr>
+                          <th>
+                            ID
+                          </th>
+                          <th>
+                           Username
+                          </th>
+                          <th>
+                            First name
+                          </th>
+                          <th>
+                            last name
+                          </th>
+                          <th>
+                            Email
+                          </th>
+                          <th>
+                            Birthday
+                          </th>
+                          <th>
+                           number
+                          </th>
+                          <th>
+                            password
+                          </th>
+                            <th>
+                                role
+                            </th>
+                          <th class="text-center">
+                            active
+                          </th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                        {% for per in userobject %}
+                        <tr>
+                            <td>
+                                {{per.identifiant}}
+                            </td>
+                            <td>
+                                {{per.username}}
+                            </td>
+                            <td>
+                                {{per.first_name}}
+                            </td>
+                            <td>
+                                {{per.last_name}}
+                            </td>
+                            <td>
+                                {{per.email}}
+                            </td>
+                            <td>
+                                {{per.native}}
+                            </td>
+                            <td>
+                                {{per.numero}}
+                            </td>
+                            <td>
+                                {{per.password|truncatechars:10}}
+                            </td>
+                            <td>
+                                {{per.role}}
+                            </td>
+                            <td class="text-center">
+                                {{per.is_active}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header">
+                        <div class="d-flex">
+                          <div class="p-2 flex-grow-1"><h4 class="card-title">FIle Sbumit</h4></div>
+                          <div class="p-2"></div>
+                        </div>
+                    </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table tablesorter " id="">
+                        <thead class=" text-primary">
+                          <tr>
+                            <th>
+                              File
+                            </th>
+                            <th>
+                             submit at
+                            </th>
+                            <th>
+                                Submit by
+                            </th>
+                            <th class="text-center">
+                              Project
+                            </th>
+                          </tr>
+                        </thead>
+                       <tbody>
+                        {% if sub %}
+                        {% for file in sub %}
+                        <tr>
+                            <td>
+                              {{file.submit_file}}
+                            </td>
+                            <td>
+                              {{file.submit_at}}
+                            </td>
+                            <td>
+                             {{file.submit_by}}
+                            </td>
+                            <td class="text-center">
+                              {{file.project}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                        NO file submit
+                        </tr>
+                            {% comment %} <td>
+                              No file submit
+                            </td>
+                            <td>
+                              No file submit
+                            </td>
+                            <td>
+                              No file submit
+                            </td>
+                            <td class="text-center">
+                              No file submit
+                            </td> {% endcomment %}
+                        {% endif %}
+                        
+                          
+                       </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      
+    </div>
+{% endblock %}
+
