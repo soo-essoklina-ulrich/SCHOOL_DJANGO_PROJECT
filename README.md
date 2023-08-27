@@ -149,8 +149,9 @@ EMAIL_HOST_USER =
 EMAIL_HOST_PASSWORD = 
 EMAIL_PORT = 
 ```
-
+>!
 <p> viens creer compte mailtrap puis renseigener les info restant dans le `.env`  pour l'envoie de mail ou si vous avec un autre moyen de transfert de mail utiliser les. Je vous conseils de vous documents par vous même</p>
+
 <b><li>Etape 2 : import les migrations </li></b> 
 <br>
 avec le fichier dump.sql fourni dans le dossier du projet, importer le dans votre base de données
