@@ -93,8 +93,8 @@ class RegisterForm(UserCreationForm):
     
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name', 'native', 'numero', 'role', 'password1', 'password2')
-        #exclude = ('password1', 'password2', "password")
+        fields = ('username', 'email', 'first_name', 'last_name', 'native', 'numero', 'role')
+        
 
 
 class UpdateInfoForm(UserCreationForm):

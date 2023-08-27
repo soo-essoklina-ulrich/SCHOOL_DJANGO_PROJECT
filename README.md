@@ -131,6 +131,26 @@ dans le fichier `.env` se trouve la configuration pour la base de données, mais
 
 <b><li>__Etape 1 :__ Creer un basse de Données pour l'application </li></b>
 <p>Creer votre Base de Donne dans le SGBD "mysql" pour le Project <br> en suite dans le fichier <b>.env</b>  Veuiller renseignet les donne de connexion  ainsi que le nom de la base de données creer</p>
+
+> Exemple : 
+```bash
+#for database
+DATABASE_NAME=nom_de_la_base_de_données
+DATABASE_USER=nom_d_utilisateur
+DATABASE_PASSWORD=mot_de_passe
+DATABASE_HOST= localhost
+DATABASE_PORT= 3306
+```
+
+```bash
+#for mail
+EMAIL_HOST = 
+EMAIL_HOST_USER = 
+EMAIL_HOST_PASSWORD = 
+EMAIL_PORT = 
+```
+
+<p> viens creer compte mailtrap puis renseigener les info restant dans le `.env`  pour l'envoie de mail ou si vous avec un autre moyen de transfert de mail utiliser les. Je vous conseils de vous documents par vous même</p>
 <b><li>Etape 2 : import les migrations </li></b> 
 <br>
 avec le fichier dump.sql fourni dans le dossier du projet, importer le dans votre base de données

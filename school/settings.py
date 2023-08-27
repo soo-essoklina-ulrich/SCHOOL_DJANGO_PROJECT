@@ -32,7 +32,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, "media")
 SECRET_KEY = 'django-insecure-af9d9jfb(y_tr31l&a@qrh$eik($z-yqdiiyex7i#79xgln3$e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'localhost:85', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1']
@@ -163,3 +163,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "authentication.User"
 
 MAX_UPLOAD_SIZE = 5 * 1024 * 1024  # 5 Mo (vous pouvez ajuster cette valeur selon vos besoins)
+
+
+#for mail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOS')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+# EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')

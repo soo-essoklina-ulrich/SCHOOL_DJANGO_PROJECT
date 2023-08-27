@@ -1,7 +1,12 @@
 from django.shortcuts import render , redirect, resolve_url
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout
+from django.core.mail import send_mail, EmailMessage
+from django.conf import settings
+import string
+import random
+import smtplib
 from .forms import LoginForm, RegisterForm, UpdateInfoForm
-from .models import User
+
 
 # Create your views here.
 
@@ -44,17 +49,45 @@ def logout_user(request):
 
 def register(request):
     msg = None
+    msg_mail = None
     success = False
+    characters = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(random.choice(characters) for _ in range(8))
+    print(password)
     
     if request.method == "POST":
         form = RegisterForm(request.POST)
         
         if form.is_valid():
-            
+            form.initial['password1'] = password
+            form.initial['password2'] = password
             user= form.save(commit=False)
-            user.set_unusable_password()
-            print(user.password)
+
+            
+            #recuperer les données du formulaire
+            mail = form.cleaned_data.get("email")
+            identifiant = form.cleaned_data.get("identifiant")
             user.save()
+            
+            try:
+                #se connecter au serveur smtp
+                connection = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
+                connection.starttls()
+                connection.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+            
+                #envoyer le mail
+                email = EmailMessage(
+                    subject="Bienvenue sur la plateforme devoirs",
+                    message="Bonjour, \n\nNous vous souhaitons la bienvenue sur la plateforme devoirs. \n\nCordialement, \n\nL'équipe devoirs",
+                    body = "votre ID est : "+identifiant+" et votre mot de passe est : "+password+"",
+                    from_email="admin@school.projet",
+                    to=[mail],
+                )
+                email.send()
+                connection.quit()
+            except Exception as e:
+                print(f"Erreur lors de l'envoi du mail à {e}")
+                msg_mail = "Erreur lors de l'envoi du mail"
             
             
             msg = 'User created.'
@@ -64,7 +97,7 @@ def register(request):
             msg = 'Form is not valid'
     else:
         form = RegisterForm()
-    return render(request, "authentication/register.html", {"form": form, "msg" : msg, "success" : success})
+    return render(request, "authentication/register.html", {"form": form, "msg" : msg, "success" : success, "msg_mail" : msg_mail})
 
 
 
