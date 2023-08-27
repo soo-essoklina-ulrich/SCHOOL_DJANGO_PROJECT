@@ -151,6 +151,7 @@
                       </thead>
                     <tbody>
                         {% for per in userobject %}
+                        {% if not per.is_superuser %}
                         <tr>
                             <td>
                                 {{per.identifiant}}
@@ -180,9 +181,15 @@
                                 {{per.role}}
                             </td>
                             <td class="text-center">
-                                {{per.is_active}}
+                                {% if per.is_active %}
+                                Active
+                                {% endif %}
+                               
                             </td>
                         </tr>
+                        
+                        {% endif %}
+                        
                         {% endfor %}
                         
                     </tbody>
