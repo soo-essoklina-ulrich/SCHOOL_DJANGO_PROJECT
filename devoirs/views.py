@@ -6,7 +6,7 @@ import pytz
 from django.conf import settings
 
 from .models import ProjectModule, Submit_file
-from .forms import ProjectForm, SubmitForm
+from .forms import ProjectForm, SubmitForm, ProjectUpdateForm
 # Create your views here.
 @login_required(login_url='auth/login/')
 def project_list_for_student(request):
@@ -30,12 +30,6 @@ def all_list_for_admin(request):
     context = {'projects': projects, 'role': role}
     return render(request, 'devoirs/admin/projects_list_admin.html', context)
 
-@login_required(login_url='auth/login/')
-def project_detail_for_teacher(request, id):
-    role = request.user.role
-    project = ProjectModule.objects.get(pk=id)
-    context = {'project': project, 'role': role}
-    return render(request, 'devoirs/enseignant/project_detail.html', context)
 
 @login_required(login_url='auth/login/')
 def project_detail_for_student(request, id):
@@ -105,8 +99,20 @@ def create_project(request):
 
 @login_required(login_url='auth/login/')
 def view_projet(request, id):
+    role = request.user.role
     project = ProjectModule.objects.get(pk=id)
-    context = {'project': project}
+    if request.method == 'POST':
+        form = ProjectUpdateForm( request.POST, request.FILES or None)
+        if form.is_valid():
+            update = form.save(commit=False)
+            update.save()
+            #return redirect('list-student')
+        else:
+            msg = 'Erreur lors de la soumission du projet'
+    else:
+        form = ProjectUpdateForm()
+    
+    context = {'project': project, 'role': role, 'form': form}
     
     return render(request, 'devoirs/project/view_project.html', context)
    

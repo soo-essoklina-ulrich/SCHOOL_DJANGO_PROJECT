@@ -15,7 +15,7 @@
             <div class="d-flex">
               <div class="p-2 flex-grow-1"></div>
               <div class="p-2"></div>
-              <div class="p-2"><a href="{% url 'detail-teacher' project.id %}"><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+              <div class="p-2"><a href="{% url 'views' project.id %}"><i class="fa fa-eye" aria-hidden="true"></i></a></div>
             </div>
             <h2 class="card-title">{{ project.title }} <span class="end-0" > </span> </h2>
             <h3 class="card-text">{{ project.subject|escape|linebreaks }}</h3>

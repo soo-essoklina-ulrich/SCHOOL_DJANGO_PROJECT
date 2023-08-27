@@ -10,7 +10,7 @@ urlpatterns = [
     path('create/', create_project, name='create'),
 
     path('delete/<int:id>/', delete_project, name='delete'),
-    path('detail_tch/<int:id>/', project_detail_for_teacher, name='detail-teacher'),
+    path('update/<int:id>/', update_project, name='update'),
     path('detail_std/<int:id>/', project_detail_for_student, name='detail-std'),
     
 ]
